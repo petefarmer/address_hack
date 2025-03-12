@@ -1,0 +1,356 @@
+<%= form_with(model: item, class: "bg-white shadow-lg rounded-lg max-w-4xl mx-auto") do |form| %>
+  <div class="p-6 space-y-6">
+    <% if item.errors.any? %>
+      <div class="bg-red-50 border-l-4 border-red-400 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800">
+              <%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:
+            </h3>
+            <div class="mt-2 text-sm text-red-700">
+              <ul class="list-disc pl-5 space-y-1">
+                <% item.errors.each do |error| %>
+                  <li><%= error.full_message %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="space-y-6">
+      <h2 class="text-xl font-semibold text-gray-900 border-b pb-2">Item Information</h2>
+      <div class="grid grid-cols-1 gap-6">
+        <div>
+          <%= form.label :item_key, class: "block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500" %>
+          <%= form.text_field :item_key, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true %>
+          <p class="mt-1 text-sm text-gray-500">A unique identifier for the item</p>
+        </div>
+
+        <div>
+          <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_area :description, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div>
+          <%= form.label :upc_key, "UPC Key", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :upc_key, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+          <p class="mt-1 text-sm text-gray-500">Universal Product Code (if applicable)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs" role="tablist">
+        <button type="button" 
+                data-tab-target="item-master"
+                class="tab-button border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                role="tab"
+                aria-selected="true"
+                aria-controls="item-master">
+          Item Master
+        </button>
+        <button type="button"
+                data-tab-target="stocking-description"
+                class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                role="tab"
+                aria-selected="false"
+                aria-controls="stocking-description">
+          Stocking Description
+        </button>
+        <button type="button"
+                data-tab-target="serial-lot"
+                class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                role="tab"
+                aria-selected="false"
+                aria-controls="serial-lot">
+          Serial Lot
+        </button>
+      </nav>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="mt-6">
+      <!-- Item Master Tab -->
+      <div id="item-master" 
+           class="tab-content"
+           role="tabpanel"
+           aria-labelledby="item-master-tab">
+        <div class="space-y-6">
+          <div class="grid grid-cols-2 gap-6">
+            <div>
+              <%= form.label :item_type, class: "block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500" %>
+              <%= form.select :item_type, 
+                  ['Finished Good', 'Raw Material', 'Component', 'Service', 'Other'],
+                  { prompt: 'Select item type' },
+                  class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                  required: true %>
+            </div>
+            <div>
+              <%= form.label :item_subtype, class: "block text-sm font-medium text-gray-700" %>
+              <%= form.text_field :item_subtype, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            </div>
+
+            <div>
+              <%= form.label :order_method, class: "block text-sm font-medium text-gray-700" %>
+              <%= form.select :order_method, 
+                  ['auto', 'manual'],
+                  { prompt: 'Select order method' },
+                  class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            </div>
+            <div>
+              <%= form.label :price_group, class: "block text-sm font-medium text-gray-700" %>
+              <%= form.text_field :price_group, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            </div>
+
+            <div>
+              <%= form.label :product_key, class: "block text-sm font-medium text-gray-700" %>
+              <%= form.text_field :product_key, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            </div>
+            <div>
+              <%= form.label :commodity_key, class: "block text-sm font-medium text-gray-700" %>
+              <%= form.text_field :commodity_key, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            </div>
+
+            <div>
+              <%= form.label :abc_key, "ABC Classification", class: "block text-sm font-medium text-gray-700" %>
+              <%= form.select :abc_key, 
+                  ['A', 'B', 'C'],
+                  { prompt: 'Select ABC classification' },
+                  class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            </div>
+            <div>
+              <%= form.label :eccn_code, "ECCN Code", class: "block text-sm font-medium text-gray-700" %>
+              <%= form.text_field :eccn_code, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+              <p class="mt-1 text-sm text-gray-500">Export Control Classification Number</p>
+            </div>
+
+            <div>
+              <%= form.label :physical_count_days, class: "block text-sm font-medium text-gray-700" %>
+              <%= form.number_field :physical_count_days, min: 0, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            </div>
+            <div>
+              <%= form.label :manufacturer_code, class: "block text-sm font-medium text-gray-700" %>
+              <%= form.text_field :manufacturer_code, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <div>
+                <%= form.label :purchasable, class: "block text-sm font-medium text-gray-700" %>
+                <%= form.check_box :purchasable, class: "mt-1 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+              </div>
+              <div>
+                <%= form.label :saleable, class: "block text-sm font-medium text-gray-700" %>
+                <%= form.check_box :saleable, class: "mt-1 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stocking Description Tab -->
+      <div id="stocking-description" 
+           class="tab-content hidden"
+           role="tabpanel"
+           aria-labelledby="stocking-description-tab"
+           aria-hidden="true">
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 gap-6">
+            <!-- Stock Units Section -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Stock Units</h3>
+              <div class="grid grid-cols-2 gap-6">
+                <div>
+                  <%= form.label :stock_unit, "Primary Stock Unit", class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.select :stock_unit,
+                      ['g', 'kg', 'lb', 'ton', 'oz', '55 gal drum'],
+                      { prompt: 'Select primary unit' },
+                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+                  <p class="mt-1 text-sm text-gray-500">Main unit for inventory tracking</p>
+                </div>
+                <div>
+                  <%= form.label :minimum_stock, class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.number_field :minimum_stock,
+                      min: 0,
+                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+                  <p class="mt-1 text-sm text-gray-500">Minimum quantity to maintain</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transaction Units Section -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Transaction Units</h3>
+              <div class="grid grid-cols-2 gap-6">
+                <div>
+                  <%= form.label :purchase_unit, class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.select :purchase_unit,
+                      ['g', 'kg', 'lb', 'ton', 'oz', '55 gal drum'],
+                      { prompt: 'Select purchase unit' },
+                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+                  <p class="mt-1 text-sm text-gray-500">Unit used for purchasing</p>
+                </div>
+                <div>
+                  <%= form.label :sales_unit, class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.select :sales_unit,
+                      ['g', 'kg', 'lb', 'ton', 'oz', '55 gal drum'],
+                      { prompt: 'Select sales unit' },
+                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+                  <p class="mt-1 text-sm text-gray-500">Unit used for sales</p>
+                </div>
+                <div>
+                  <%= form.label :production_unit, class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.select :production_unit,
+                      ['g', 'kg', 'lb', 'ton', 'oz', '55 gal drum'],
+                      { prompt: 'Select production unit' },
+                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+                  <p class="mt-1 text-sm text-gray-500">Unit used in production</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Serial Lot Tab -->
+      <div id="serial-lot" 
+           class="tab-content hidden"
+           role="tabpanel"
+           aria-labelledby="serial-lot-tab"
+           aria-hidden="true">
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 gap-6">
+            <!-- Tracking Settings Section -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Tracking Settings</h3>
+              <div class="grid grid-cols-2 gap-6">
+                <div>
+                  <%= form.label :serial_tracked, class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.check_box :serial_tracked, class: "mt-1 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+                  <p class="mt-1 text-sm text-gray-500">Enable serial number tracking for this item</p>
+                </div>
+                <div>
+                  <%= form.label :lot_tracked, class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.check_box :lot_tracked, class: "mt-1 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+                  <p class="mt-1 text-sm text-gray-500">Enable lot tracking for this item</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lot Management Section -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Lot Management</h3>
+              <div class="grid grid-cols-2 gap-6">
+                <div>
+                  <%= form.label :track_serial_lot, "Serial/Lot Tracking Method", class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.select :track_serial_lot,
+                      ['None', 'Serial Only', 'Lot Only', 'Serial and Lot'],
+                      { prompt: 'Select tracking method' },
+                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+                  <p class="mt-1 text-sm text-gray-500">How this item should be tracked</p>
+                </div>
+                <div>
+                  <%= form.label :auto_lot_issue_method, "Lot Issue Method", class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.select :auto_lot_issue_method,
+                      ['FIFO', 'LIFO', 'Expiration Date', 'Manual'],
+                      { prompt: 'Select issue method' },
+                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+                  <p class="mt-1 text-sm text-gray-500">Method for automatically selecting lots for issue</p>
+                </div>
+                <div>
+                  <%= form.label :default_lot_size, class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.number_field :default_lot_size,
+                      min: 0,
+                      step: 'any',
+                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+                  <p class="mt-1 text-sm text-gray-500">Default size when creating new lots</p>
+                </div>
+                <div>
+                  <%= form.label :storage_condition, class: "block text-sm font-medium text-gray-700" %>
+                  <%= form.select :storage_condition,
+                      ['Ambient', 'Refrigerated', 'Frozen', 'Climate Controlled', 'Hazmat'],
+                      { prompt: 'Select storage condition' },
+                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+                  <p class="mt-1 text-sm text-gray-500">Required storage conditions for this item</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
+    <p class="text-sm text-gray-500">* Required fields</p>
+    <%= form.submit class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+  </div>
+
+  <%# Add JavaScript for tab functionality %>
+  <script>
+    function initializeTabs() {
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      function switchTab(targetId, updateHash = true) {
+        // Update button states
+        tabButtons.forEach(button => {
+          const isActive = button.dataset.tabTarget === targetId;
+          button.classList.toggle('border-indigo-500', isActive);
+          button.classList.toggle('text-indigo-600', isActive);
+          button.classList.toggle('border-transparent', !isActive);
+          button.classList.toggle('text-gray-500', !isActive);
+          button.setAttribute('aria-selected', isActive);
+        });
+
+        // Update content visibility
+        tabContents.forEach(content => {
+          content.classList.toggle('hidden', content.id !== targetId);
+          content.setAttribute('aria-hidden', content.id !== targetId);
+        });
+
+        // Update URL hash without scrolling, only if requested
+        if (updateHash) {
+          const newUrl = new URL(window.location);
+          newUrl.hash = targetId;
+          window.history.pushState({}, '', newUrl);
+        }
+      }
+
+      // Add click handlers to buttons
+      tabButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = button.dataset.tabTarget;
+          switchTab(targetId);
+        });
+      });
+
+      // Check URL hash on page load
+      const hash = window.location.hash.replace('#', '') || 'item-master';
+      if (['item-master', 'stocking-description', 'serial-lot'].includes(hash)) {
+        switchTab(hash, false);
+      }
+
+      // Listen for hash changes
+      window.addEventListener('popstate', function() {
+        const hash = window.location.hash.replace('#', '') || 'item-master';
+        if (['item-master', 'stocking-description', 'serial-lot'].includes(hash)) {
+          switchTab(hash, false);
+        }
+      });
+    }
+
+    // Initialize on both DOMContentLoaded and Turbo navigation
+    document.addEventListener('DOMContentLoaded', initializeTabs);
+    document.addEventListener('turbo:load', initializeTabs);
+    document.addEventListener('turbo:render', initializeTabs);
+  </script>
+<% end %> 

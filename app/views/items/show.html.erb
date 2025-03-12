@@ -1,0 +1,355 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-8">
+    <div class="md:flex md:items-center md:justify-between">
+      <div class="flex-1 min-w-0">
+        <h1 class="text-3xl font-bold leading-7 text-gray-900 sm:text-4xl sm:truncate">
+          Item: <%= @item.item_key %>
+        </h1>
+        <p class="mt-2 text-sm text-gray-500">
+          View item details and information.
+        </p>
+      </div>
+      <div class="mt-4 flex md:mt-0 md:ml-4 space-x-3">
+        <%= link_to edit_item_path(@item), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+          </svg>
+          Edit Item
+        <% end %>
+        <%= link_to items_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+          </svg>
+          Back to Items
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <!-- Basic Information Section -->
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Basic Information</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Key details and identifiers.</p>
+    </div>
+    
+    <div class="border-b border-gray-200">
+      <dl>
+        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Item Key</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @item.item_key %></dd>
+        </div>
+        
+        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Description</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= @item.description.present? ? @item.description : "No description provided" %>
+          </dd>
+        </div>
+        
+        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">UPC Key</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= @item.upc_key.present? ? @item.upc_key : "No UPC key provided" %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Tabs -->
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs" role="tablist">
+        <button type="button" 
+                data-tab-target="item-master"
+                class="tab-button border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                role="tab"
+                aria-selected="true"
+                aria-controls="item-master">
+          Item Master
+        </button>
+        <button type="button"
+                data-tab-target="stocking-description"
+                class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                role="tab"
+                aria-selected="false"
+                aria-controls="stocking-description">
+          Stocking Description
+        </button>
+        <button type="button"
+                data-tab-target="serial-lot"
+                class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                role="tab"
+                aria-selected="false"
+                aria-controls="serial-lot">
+          Serial Lot
+        </button>
+      </nav>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="divide-y divide-gray-200">
+      <!-- Item Master Tab -->
+      <div id="item-master" 
+           class="tab-content"
+           role="tabpanel"
+           aria-labelledby="item-master-tab">
+        <dl>
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Item Type</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @item.item_type %></dd>
+          </div>
+          
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Item Subtype</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.item_subtype.present? ? @item.item_subtype : "Not specified" %>
+            </dd>
+          </div>
+          
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Order Method</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.order_method.present? ? @item.order_method.titleize : "Not specified" %>
+            </dd>
+          </div>
+
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Price Group</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.price_group.present? ? @item.price_group : "Not specified" %>
+            </dd>
+          </div>
+
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Product Key</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.product_key.present? ? @item.product_key : "Not specified" %>
+            </dd>
+          </div>
+
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Commodity Key</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.commodity_key.present? ? @item.commodity_key : "Not specified" %>
+            </dd>
+          </div>
+
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">ABC Classification</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.abc_key.present? ? @item.abc_key : "Not classified" %>
+            </dd>
+          </div>
+
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">ECCN Code</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.eccn_code.present? ? @item.eccn_code : "Not specified" %>
+            </dd>
+          </div>
+
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Physical Count Days</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.physical_count_days.present? ? @item.physical_count_days : "Not specified" %>
+            </dd>
+          </div>
+
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Manufacturer Code</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.manufacturer_code.present? ? @item.manufacturer_code : "Not specified" %>
+            </dd>
+          </div>
+
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Purchasable</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.purchasable ? "Yes" : "No" %>
+            </dd>
+          </div>
+
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Saleable</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @item.saleable ? "Yes" : "No" %>
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Stocking Description Tab -->
+      <div id="stocking-description" 
+           class="tab-content hidden"
+           role="tabpanel"
+           aria-labelledby="stocking-description-tab"
+           aria-hidden="true">
+        <div class="space-y-6 p-6">
+          <!-- Stock Units Section -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Stock Units</h3>
+            <dl class="grid grid-cols-1 gap-4">
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Primary Stock Unit</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.stock_unit.present? ? @item.stock_unit : "Not specified" %>
+                </dd>
+              </div>
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Minimum Stock Level</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.minimum_stock.present? ? "#{@item.minimum_stock} #{@item.stock_unit}" : "Not specified" %>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Transaction Units Section -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Transaction Units</h3>
+            <dl class="grid grid-cols-1 gap-4">
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Purchase Unit</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.purchase_unit.present? ? @item.purchase_unit : "Not specified" %>
+                </dd>
+              </div>
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Sales Unit</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.sales_unit.present? ? @item.sales_unit : "Not specified" %>
+                </dd>
+              </div>
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Production Unit</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.production_unit.present? ? @item.production_unit : "Not specified" %>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <!-- Serial Lot Tab -->
+      <div id="serial-lot" 
+           class="tab-content hidden"
+           role="tabpanel"
+           aria-labelledby="serial-lot-tab"
+           aria-hidden="true">
+        <div class="space-y-6 p-6">
+          <!-- Tracking Settings Section -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Tracking Settings</h3>
+            <dl class="grid grid-cols-1 gap-4">
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Serial Tracked</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.serial_tracked ? "Yes" : "No" %>
+                </dd>
+              </div>
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Lot Tracked</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.lot_tracked ? "Yes" : "No" %>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Lot Management Section -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Lot Management</h3>
+            <dl class="grid grid-cols-1 gap-4">
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Serial/Lot Tracking Method</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.track_serial_lot.present? ? @item.track_serial_lot : "Not specified" %>
+                </dd>
+              </div>
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Lot Issue Method</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.auto_lot_issue_method.present? ? @item.auto_lot_issue_method : "Not specified" %>
+                </dd>
+              </div>
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Default Lot Size</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.default_lot_size.present? ? @item.default_lot_size : "Not specified" %>
+                </dd>
+              </div>
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Storage Condition</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <%= @item.storage_condition.present? ? @item.storage_condition : "Not specified" %>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Add JavaScript for tab functionality %>
+  <script>
+    function initializeTabs() {
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      function switchTab(targetId, updateHash = true) {
+        // Update button states
+        tabButtons.forEach(button => {
+          const isActive = button.dataset.tabTarget === targetId;
+          button.classList.toggle('border-indigo-500', isActive);
+          button.classList.toggle('text-indigo-600', isActive);
+          button.classList.toggle('border-transparent', !isActive);
+          button.classList.toggle('text-gray-500', !isActive);
+          button.setAttribute('aria-selected', isActive);
+        });
+
+        // Update content visibility
+        tabContents.forEach(content => {
+          content.classList.toggle('hidden', content.id !== targetId);
+          content.setAttribute('aria-hidden', content.id !== targetId);
+        });
+
+        // Update URL hash without scrolling, only if requested
+        if (updateHash) {
+          const newUrl = new URL(window.location);
+          newUrl.hash = targetId;
+          window.history.pushState({}, '', newUrl);
+        }
+      }
+
+      // Add click handlers to buttons
+      tabButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = button.dataset.tabTarget;
+          switchTab(targetId);
+        });
+      });
+
+      // Check URL hash on page load
+      const hash = window.location.hash.replace('#', '') || 'item-master';
+      if (['item-master', 'stocking-description', 'serial-lot'].includes(hash)) {
+        switchTab(hash, false);
+      }
+
+      // Listen for hash changes
+      window.addEventListener('popstate', function() {
+        const hash = window.location.hash.replace('#', '') || 'item-master';
+        if (['item-master', 'stocking-description', 'serial-lot'].includes(hash)) {
+          switchTab(hash, false);
+        }
+      });
+    }
+
+    // Initialize on both DOMContentLoaded and Turbo navigation
+    document.addEventListener('DOMContentLoaded', initializeTabs);
+    document.addEventListener('turbo:load', initializeTabs);
+    document.addEventListener('turbo:render', initializeTabs);
+  </script>
+</div>
