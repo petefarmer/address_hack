@@ -61,22 +61,22 @@
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <% @items.each do |item| %>
-          <tr class="<%= cycle('bg-white', 'bg-gray-50') %>">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+          <tr class="<%= cycle('bg-white', 'bg-gray-50') %> hover:bg-gray-100 group" data-controller="row-link" data-action="click->row-link#visit" data-row-link-url-value="<%= item_path(item) %>">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 cursor-pointer group-hover:text-indigo-600">
               <%= item.item_key %>
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500">
+            <td class="px-6 py-4 text-sm text-gray-500 cursor-pointer">
               <div class="max-w-xs truncate">
                 <%= item.description %>
               </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
               <%= item.upc_key %>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
               <%= item.item_type %>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 space-x-2">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 space-x-2" onclick="event.stopPropagation()">
               <%= link_to 'View', item, class: 'text-indigo-600 hover:text-indigo-900' %>
               <%= link_to 'Edit', edit_item_path(item), class: 'text-indigo-600 hover:text-indigo-900' %>
               <%= link_to 'Delete', item, 

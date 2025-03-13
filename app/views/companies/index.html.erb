@@ -44,54 +44,46 @@
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
             <%= link_to "Name #{sort_indicator('name')}", 
                 companies_path(sort: 'name', direction: next_sort_direction('name'), search: params[:search]),
                 class: "group inline-flex items-center" %>
           </th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
             <%= link_to "Contact Person #{sort_indicator('contact_person')}", 
                 companies_path(sort: 'contact_person', direction: next_sort_direction('contact_person'), search: params[:search]),
                 class: "group inline-flex items-center" %>
           </th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
             <%= link_to "Email #{sort_indicator('email')}", 
                 companies_path(sort: 'email', direction: next_sort_direction('email'), search: params[:search]),
                 class: "group inline-flex items-center" %>
           </th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">
             <%= link_to "Phone #{sort_indicator('phone')}", 
                 companies_path(sort: 'phone', direction: next_sort_direction('phone'), search: params[:search]),
                 class: "group inline-flex items-center" %>
           </th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Billing Address</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shipping Address</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-1/12">Actions</th>
         </tr>
       </thead>
 
       <tbody class="bg-white divide-y divide-gray-200">
         <% @companies.each do |company| %>
-          <tr class="<%= cycle('bg-white', 'bg-gray-50') %>">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= company.name %></td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= company.contact_person %></td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= company.email %></td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= company.phone %></td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              <% if company.billing_address %>
-                <div class="text-sm">
-                  <%= "#{company.billing_address.street}, #{company.billing_address.city}, #{country_name(company.billing_address.country)}" %>
-                </div>
-              <% end %>
+          <tr class="<%= cycle('bg-white', 'bg-gray-50') %> hover:bg-gray-100 group" data-controller="row-link" data-action="click->row-link#visit" data-row-link-url-value="<%= company_path(company) %>">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 cursor-pointer group-hover:text-indigo-600">
+              <%= company.name %>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              <% if company.shipping_address %>
-                <div class="text-sm">
-                  <%= "#{company.shipping_address.street}, #{company.shipping_address.city}, #{country_name(company.shipping_address.country)}" %>
-                </div>
-              <% end %>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
+              <%= company.contact_person %>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 space-x-2">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
+              <%= company.email %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
+              <%= company.phone %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right space-x-2" onclick="event.stopPropagation()">
               <%= link_to 'View', company, class: 'text-indigo-600 hover:text-indigo-900' %>
               <%= link_to 'Edit', edit_company_path(company), class: 'text-indigo-600 hover:text-indigo-900' %>
               <%= link_to 'Delete', company, 
