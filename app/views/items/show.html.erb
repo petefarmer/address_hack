@@ -29,28 +29,23 @@
   <div class="bg-white shadow overflow-hidden sm:rounded-lg">
     <!-- Basic Information Section -->
     <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
-      <h3 class="text-lg leading-6 font-medium text-gray-900">Basic Information</h3>
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Master Item Details</h3>
       <p class="mt-1 max-w-2xl text-sm text-gray-500">Key details and identifiers.</p>
     </div>
     
     <div class="border-b border-gray-200">
       <dl>
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <div class="bg-gray-50 px-4 py-5 flex items-center space-x-4">
           <dt class="text-sm font-medium text-gray-500">Item Key</dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @item.item_key %></dd>
+          <dd class="text-sm text-gray-900"><%= @item.item_key %></dd>
+          <dt class="text-sm font-medium text-gray-500 ml-8">UPC Key</dt>
+          <dd class="text-sm text-gray-900"><%= @item.upc_key.present? ? @item.upc_key : "Not specified" %></dd>
         </div>
         
         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">Description</dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
             <%= @item.description.present? ? @item.description : "No description provided" %>
-          </dd>
-        </div>
-        
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500">UPC Key</dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <%= @item.upc_key.present? ? @item.upc_key : "No UPC key provided" %>
           </dd>
         </div>
       </dl>
@@ -93,89 +88,95 @@
            class="tab-content"
            role="tabpanel"
            aria-labelledby="item-master-tab">
-        <dl>
-          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Item Type</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @item.item_type %></dd>
-          </div>
-          
-          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Item Subtype</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.item_subtype.present? ? @item.item_subtype : "Not specified" %>
-            </dd>
-          </div>
-          
-          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Order Method</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.order_method.present? ? @item.order_method.titleize : "Not specified" %>
-            </dd>
+        <div class="grid grid-cols-2 gap-6 p-6">
+          <!-- Column 1 -->
+          <div class="space-y-6">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Item Type</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @item.item_type %></dd>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Order Method</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.order_method.present? ? @item.order_method.titleize : "Not specified" %>
+              </dd>
+            </div>
+
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Product Key</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.product_key.present? ? @item.product_key : "Not specified" %>
+              </dd>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">ABC Classification</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.abc_key.present? ? @item.abc_key : "Not classified" %>
+              </dd>
+            </div>
+
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Physical Count Days</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.physical_count_days.present? ? @item.physical_count_days : "Not specified" %>
+              </dd>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Purchasable</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.purchasable ? "Yes" : "No" %>
+              </dd>
+            </div>
           </div>
 
-          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Price Group</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.price_group.present? ? @item.price_group : "Not specified" %>
-            </dd>
-          </div>
+          <!-- Column 2 -->
+          <div class="space-y-6">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Item Subtype</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.item_subtype.present? ? @item.item_subtype : "Not specified" %>
+              </dd>
+            </div>
 
-          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Product Key</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.product_key.present? ? @item.product_key : "Not specified" %>
-            </dd>
-          </div>
+            <div class="bg-white p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Price Group</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.price_group.present? ? @item.price_group : "Not specified" %>
+              </dd>
+            </div>
 
-          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Commodity Key</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.commodity_key.present? ? @item.commodity_key : "Not specified" %>
-            </dd>
-          </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Commodity Key</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.commodity_key.present? ? @item.commodity_key : "Not specified" %>
+              </dd>
+            </div>
 
-          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">ABC Classification</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.abc_key.present? ? @item.abc_key : "Not classified" %>
-            </dd>
-          </div>
+            <div class="bg-white p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">ECCN Code</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.eccn_code.present? ? @item.eccn_code : "Not specified" %>
+              </dd>
+            </div>
 
-          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">ECCN Code</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.eccn_code.present? ? @item.eccn_code : "Not specified" %>
-            </dd>
-          </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Manufacturer Code</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.manufacturer_code.present? ? @item.manufacturer_code : "Not specified" %>
+              </dd>
+            </div>
 
-          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Physical Count Days</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.physical_count_days.present? ? @item.physical_count_days : "Not specified" %>
-            </dd>
+            <div class="bg-white p-4 rounded-lg">
+              <dt class="text-sm font-medium text-gray-500">Saleable</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= @item.saleable ? "Yes" : "No" %>
+              </dd>
+            </div>
           </div>
-
-          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Manufacturer Code</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.manufacturer_code.present? ? @item.manufacturer_code : "Not specified" %>
-            </dd>
-          </div>
-
-          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Purchasable</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.purchasable ? "Yes" : "No" %>
-            </dd>
-          </div>
-
-          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Saleable</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <%= @item.saleable ? "Yes" : "No" %>
-            </dd>
-          </div>
-        </dl>
+        </div>
       </div>
 
       <!-- Stocking Description Tab -->
