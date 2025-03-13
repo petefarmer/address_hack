@@ -59,3 +59,14 @@ yarn-debug.log*
 
 # Ignore VSCode files
 .vscode/
+
+# Deployment related files
+address_hack.pem
+aws_deploy.sh
+deploy.sh
+docker-compose.prod.yml
+docker-compose.yml
+entrypoint.sh
+nginx.conf
+config/local-ssl/
+ssl/
