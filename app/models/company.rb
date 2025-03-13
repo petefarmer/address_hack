@@ -11,8 +11,7 @@ class Company < ApplicationRecord
                    format: { 
                      with: /\A[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\z/,
                      message: "must be a valid email address (e.g., user@example.com)"
-                   },
-                   uniqueness: { case_sensitive: false }
+                   }
   validates :phone, presence: true
   validates :contact_person, presence: true
 
